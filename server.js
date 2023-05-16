@@ -19,15 +19,25 @@ if(NODE_ENV === 'production') dbUri = `mongodb+srv://dawparc:${process.env.DB_PA
 else if(NODE_ENV === 'test') dbUri = 'mongodb://localhost:27017/AdsBoardDBTest';
 else dbUri = 'mongodb://localhost:27017/AdsBoardDB';
 
-app.use(cors());
+if(process.env.NODE_ENV !== 'production') {
+  app.use(
+    cors({
+      origin: ['http://localhost:3000'],
+      credentials: true,
+    })
+  );
+}
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(helmet());
 app.use(session({ 
-  secret: "xyz567", 
+  secret: process.env.secret, 
   store: MongoStore.create({ mongoUrl: dbUri }), 
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  cookie: {
+    secure: process.env.NODE_ENV == 'production',
+  },
 }))
 
 app.use(express.static(path.join(__dirname, '/client/build')));
