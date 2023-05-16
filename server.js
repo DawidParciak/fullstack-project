@@ -8,7 +8,6 @@ const MongoStore = require('connect-mongo');
 
 const app = express();
 
-//import routes
 const adsRoutes = require('./routes/ads.routes.js');
 const authRoutes = require('./routes/auth.routes.js');
 
@@ -31,7 +30,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(helmet());
 app.use(session({ 
-  secret: process.env.secret, 
+  secret: process.env.secret || 'xyz567', 
   store: MongoStore.create({ mongoUrl: dbUri }), 
   resave: false,
   saveUninitialized: false,
@@ -40,14 +39,10 @@ app.use(session({
   },
 }))
 
-app.use(express.static(path.join(__dirname, '/client/build')));
+app.use(express.static(path.join(__dirname, '/public')));
 
 app.use('/api', adsRoutes);
 app.use('/auth', authRoutes);
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '/client/build/index.html'));
-});
 
 app.use((req, res) => {
   res.status(404).send({ message: 'Not found...' });
