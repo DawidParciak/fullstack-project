@@ -3,7 +3,8 @@ const Ad = require('../models/ad.model');
 exports.getAllAds = async (req, res) => {
   try {
     res.json(await Ad.find());
-  } catch (err) {
+  } 
+  catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
@@ -13,7 +14,8 @@ exports.getAdById = async (req, res) => {
     const adId = await Ad.findOne({ _id: req.params.id });
     if (!adId) res.status(404).json({ message: 'Not found...' });
     else res.json(adId);
-  } catch (err) {
+  } 
+  catch (err) {
     res.status(500).send({ message: err.message });
   }
 };
@@ -32,7 +34,8 @@ exports.postNewAd = async (req, res) => {
     })
     await newAd.save();
     res.json( newAd )
-  } catch(err) {
+  } 
+  catch(err) {
     res.status(500).send({ message: err.message });
   }
 };
@@ -51,8 +54,7 @@ exports.putById = async (req, res) => {
       adToEdit.seller = seller;
       await adToEdit.save();
       res.json({ message: 'Ad edited' });
-    } 
-    else res.status(404).json({ message: 'Not found...' });
+    } else res.status(404).json({ message: 'Not found...' });
   }
   catch(err) {
     res.status(500).json({ message: err.message });
@@ -68,8 +70,27 @@ exports.deleteById = async (req, res) => {
     } else {
       res.status(404).json({ message: 'Not found...'});
     }
-  } catch(err) {
+  } 
+  catch(err) {
     res.status(500).json({ message: err.message });
   }
 };
 
+exports.searchAd = async (req, res) => {
+  try {
+    const searchPhrase = req.params.searchPhrase; 
+    const regex = new RegExp(searchPhrase, "i"); 
+
+    const ads = await Ad.find({
+      $or: [
+        { title: regex },
+        { content: regex }
+      ]
+    });
+
+    res.json(ads);
+  } 
+  catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
