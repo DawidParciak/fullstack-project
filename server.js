@@ -8,6 +8,7 @@ const app = express();
 
 //import routes
 const adsRoutes = require('./routes/ads.routes.js');
+const authRoutes = require('./routes/auth.routes.js');
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
@@ -17,6 +18,7 @@ app.use(helmet());
 app.use(express.static(path.join(__dirname, '/client/build')));
 
 app.use('/api', adsRoutes);
+app.use('/auth', authRoutes);
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '/client/build/index.html'));
