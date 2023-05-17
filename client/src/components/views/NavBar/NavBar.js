@@ -51,7 +51,20 @@ const NavBar = () => {
                     add_box
                   </span>
                   <span>
-                    Add add
+                    Add ad
+                  </span>
+                </Button>
+              </Nav.Link>
+            )}
+
+            {user && (
+              <Nav.Link href="/user" className="pe-3">
+                <Button variant="danger" size="lg" className="d-flex align-items-center">
+                  <span className="material-symbols-outlined pe-2">
+                    person
+                  </span>
+                  <span>
+                    {user.login}
                   </span>
                 </Button>
               </Nav.Link>

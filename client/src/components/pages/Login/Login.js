@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux";
 import { logIn } from "../../../redux/usersRedux";
 import { useNavigate } from "react-router-dom";
 
-
 const Login = () => {
 
   const [login, setLogin] = useState('');
@@ -46,9 +45,6 @@ const Login = () => {
         setStatus('serverError');
       });
   } 
-
-  
-
 
   return(
     <Form className="col-12 col-sm-4 ms-5" onSubmit={handleSubmit}>

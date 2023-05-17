@@ -11,6 +11,7 @@ import Login from "./components/pages/Login/Login";
 import Register from "./components/pages/Register/Register";
 import Logout from "./components/pages/Logout/Logout";
 import NotFound from "./components/pages/NotFound/NotFound";
+import User from "./components/pages/User/User";
 import { Container } from "react-bootstrap";
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
           <Route path="/ad/edit/:id" element={<AdEdit />} />
           <Route path="/ad/remove/:id" element={<AdRemove />} />
           <Route path="/ad/search/:searchPhrase" element={<Search />} />
+          <Route path="/user" element={<User />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/logout" element={<Logout />} />
