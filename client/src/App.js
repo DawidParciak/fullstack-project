@@ -1,10 +1,12 @@
+import Header from "./components/views/Header/Header";
+import Footer from "./components/views/Footer/Footer";
+
 function App() {
   return (
-    <main>
-      <p>
-        Hello
-      </p>
-    </main>
+    <>
+      <Header />
+      <Footer />
+    </>
   );
 }
 

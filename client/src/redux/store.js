@@ -1,5 +1,7 @@
 import { createStore, combineReducers } from 'redux';
 import initialState from './initialState';
+
+// import reducers
 import usersReducer from './usersRedux';
 
 const subreducers = {
@@ -7,6 +9,7 @@ const subreducers = {
 }
 
 const reducer = combineReducers(subreducers);
+
 const store = createStore(
   reducer,
   initialState,
