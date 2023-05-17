@@ -1,3 +1,6 @@
-const inititalState = {};
+const inititalState = {
+  ads: [],
+  user: null,
+};
 
 export default inititalState;

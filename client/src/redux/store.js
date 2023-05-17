@@ -3,9 +3,11 @@ import initialState from './initialState';
 
 // import reducers
 import usersReducer from './usersRedux';
+import adsReducer from './adsRedux';
 
 const subreducers = {
-  users: usersReducer
+  user: usersReducer,
+  ads: adsReducer,
 }
 
 const reducer = combineReducers(subreducers);
