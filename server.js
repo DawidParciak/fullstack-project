@@ -26,6 +26,7 @@ if(process.env.NODE_ENV !== 'production') {
     })
   );
 }
+
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(helmet());
@@ -40,9 +41,14 @@ app.use(session({
 }))
 
 app.use(express.static(path.join(__dirname, '/public')));
+app.use(express.static(path.join(__dirname, '/client/build')));
 
 app.use('/api', adsRoutes);
 app.use('/auth', authRoutes);
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '/client/build/index.html'));
+});
 
 app.use((req, res) => {
   res.status(404).send({ message: 'Not found...' });
