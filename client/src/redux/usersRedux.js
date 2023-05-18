@@ -16,15 +16,18 @@ export const logOut = () => ({
     type: LOG_OUT,
 });
 
-const usersReducer = (statePart = null, action) => {
-    switch (action.type) {
-        case LOG_IN:
-            return action.payload;
-        case LOG_OUT:
-            return null
-        default:
-            return statePart;
-    }
-};
-  
-export default usersReducer;
+
+// initial state 
+const initialState = (null);
+
+// reducer
+export default function reducer(statePart = initialState, action = {}) {
+  switch (action.type) {
+    case LOG_IN:
+        return action.payload;
+    case LOG_OUT:
+        return null
+    default:
+        return statePart;
+  }
+}
