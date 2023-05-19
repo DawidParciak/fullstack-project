@@ -1,6 +1,7 @@
 import { Container, Navbar, Nav, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { getUser } from "../../../redux/usersRedux";
+import { NavLink } from "react-router-dom";
 
 const NavBar = () => {
 
@@ -9,18 +10,20 @@ const NavBar = () => {
   return (
     <Navbar variant="dark" className="mt-0 navbar-color" expand="lg">
       <Container>
-        <Navbar.Brand href="/" className="d-flex align-items-center">
-          <img src="/pngegg.png" alt="Logo" className="me-2" style={{ width: "60px" }} />
-          <div className="d-flex flex-column">
-            <span className="h2 mb-0 ps-2">board.</span>
-          </div>
-        </Navbar.Brand>
+        <NavLink to="/" className="text-decoration-none">
+          <Navbar.Brand className="d-flex align-items-center">
+            <img src="/pngegg.png" alt="Logo" className="me-2" style={{ width: "60px" }} />
+            <div className="d-flex flex-column">
+              <span className="h2 mb-0 ps-2">board.</span>
+            </div>
+          </Navbar.Brand>
+        </NavLink>
         <Navbar.Toggle aria-controls="navbar-nav" />
         <Navbar.Collapse id="navbar-nav">
           <Nav className="ms-auto">
 
             {!user && (
-              <Nav.Link href="/register" className="pe-3">
+              <NavLink to="/register" className="pe-3 text-decoration-none">
                 <Button variant="danger" size="lg" className="d-flex align-items-center">
                   <span className="material-symbols-outlined pe-2">
                     person_add
@@ -29,10 +32,10 @@ const NavBar = () => {
                     Register
                   </span>
                 </Button>
-              </Nav.Link>
+              </NavLink>
             )}
             {!user && (
-              <Nav.Link href="/login">
+              <NavLink to="/login" className="text-decoration-none">
                 <Button variant="outline-danger" size="lg" className="d-flex align-items-center">
                   <span className="material-symbols-outlined pe-2">
                     login
@@ -41,11 +44,11 @@ const NavBar = () => {
                     Login
                   </span>
                 </Button>
-              </Nav.Link>
+              </NavLink>
             )}
 
             {user && (
-              <Nav.Link href="/ad/add" className="pe-3">
+              <NavLink to="/ad/add" className="pe-3 text-decoration-none">
                 <Button variant="success" size="lg" className="d-flex align-items-center">
                   <span className="material-symbols-outlined pe-2">
                     add_box
@@ -54,11 +57,11 @@ const NavBar = () => {
                     Add ad
                   </span>
                 </Button>
-              </Nav.Link>
+              </NavLink>
             )}
 
             {user && (
-              <Nav.Link href="/user" className="pe-3">
+              <NavLink to="/user" className="pe-3 text-decoration-none">
                 <Button variant="danger" size="lg" className="d-flex align-items-center">
                   <span className="material-symbols-outlined pe-2">
                     person
@@ -67,11 +70,11 @@ const NavBar = () => {
                     {user.login}
                   </span>
                 </Button>
-              </Nav.Link>
+              </NavLink>
             )}
 
             {user && (
-            <Nav.Link href="/logout">
+            <NavLink to="/logout" className="text-decoration-none">
               <Button variant="danger" size="lg" className="d-flex align-items-center">
                 <span className="material-symbols-outlined pe-2">
                   logout
@@ -80,7 +83,7 @@ const NavBar = () => {
                   Logout
                 </span>
               </Button>
-            </Nav.Link>
+            </NavLink>
             )}
           </Nav>
         </Navbar.Collapse>

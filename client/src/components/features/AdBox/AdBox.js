@@ -11,16 +11,30 @@ const AdBox = () => {
   const request = useSelector(getRequest);
 
   useEffect(() => {
-    dispatch(loadAdsRequest())
-  }, [dispatch])
+    dispatch(loadAdsRequest());
+  }, [dispatch]);
 
-  if(request.pending) return <Spinner />; 
-  else if(request.error) return <Alert color="warning">{request.error}</Alert>;
-  else if(!request.success || !ads.length) return <Alert color="info">No ads</Alert>;
-  else if(request.success) 
-  return (
-    <Ads ads={ads}  />
-  )
-}
+  if (request.pending)
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <Spinner animation="border" />
+      </div>
+    );
+  else if (request.error)
+    return (
+      <Alert variant="warning">{request.error}</Alert>
+    );
+  else if (!request.success || !ads.length)
+    return <Alert variant="info">No ads</Alert>;
+  else if (request.success)
+    return <Ads ads={ads} />;
+};
 
 export default AdBox;
