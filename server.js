@@ -26,10 +26,6 @@ if(process.env.NODE_ENV !== 'production') {
     })
   );
 }
-
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
-app.use(helmet());
 app.use(session({ 
   secret: process.env.secret || 'xyz567', 
   store: MongoStore.create({ mongoUrl: dbUri }), 
@@ -39,6 +35,10 @@ app.use(session({
     secure: process.env.NODE_ENV == 'production',
   },
 }))
+
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(helmet());
 
 app.use(express.static(path.join(__dirname, '/public')));
 app.use(express.static(path.join(__dirname, '/client/build')));

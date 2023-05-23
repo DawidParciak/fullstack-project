@@ -13,8 +13,15 @@ import Logout from "./components/pages/Logout/Logout";
 import NotFound from "./components/pages/NotFound/NotFound";
 import User from "./components/pages/User/User";
 import { Container } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { fetchData } from "./redux/adsRedux";
 
 function App() {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => dispatch(fetchData()), [dispatch]);
 
   return (
     <main>
