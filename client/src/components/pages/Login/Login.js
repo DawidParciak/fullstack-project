@@ -25,7 +25,7 @@ const Login = () => {
     };
 
     setStatus('loading');
-    fetch(`${API_URL}/auth/login`, options)
+    fetch(`${API_URL}auth/login`, options)
       .then(res => {
         if (res.status === 200) {
           setStatus('success');
@@ -88,8 +88,8 @@ const Login = () => {
         <Form.Control type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" />
       </Form.Group>
 
-      <Button variant="primary" type="submit">
-        Submit
+      <Button variant="danger" type="submit">
+        Login
       </Button>
 
     </Form>

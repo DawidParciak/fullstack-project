@@ -1,24 +1,24 @@
-import { combineReducers, createStore, compose, applyMiddleware } from "redux";
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
+import initialState from './initialState';
+import adsReducer from './adsRedux';
+import usersReducer from './usersRedux';
 
+const subreducers = {
+  ads: adsReducer,
+  user: usersReducer,
+};
 
-// import reducers
-import ads from './adsRedux';
-import user from './usersRedux'
-
-
-// combine reducers 
-const rootReducer = combineReducers({
-  ads,
-  user
-});
-
+const reducer = combineReducers(subreducers);
 const store = createStore(
-  rootReducer,
+  reducer,
+  initialState,
   compose(
     applyMiddleware(thunk),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    window.__REDUX_DEVTOOLS_EXTENSION__
+      ? window.__REDUX_DEVTOOLS_EXTENSION__()
+      : (f) => f
   )
-)
+);
 
 export default store;

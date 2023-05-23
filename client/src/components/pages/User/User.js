@@ -1,9 +1,17 @@
+import { useSelector } from "react-redux";
+import { getUser } from "../../../redux/usersRedux";
+
 const User = () => {
+
+  const user = useSelector(getUser)
+
   return(
-    <div>
-      <h1>
-        User
-      </h1>
+    <div className="my-5">
+      {user && (
+        <h1>
+          User {user.login.phone}
+        </h1>
+      )}
     </div>
   );
 };

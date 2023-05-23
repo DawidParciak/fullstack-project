@@ -26,7 +26,7 @@ const Register = () => {
     };
 
     setStatus('loading');
-    fetch(`${API_URL}/auth/register`, options)
+    fetch(`${API_URL}auth/register`, options)
       .then(res => {
         if (res.status === 201) {
           setStatus('success');
@@ -106,8 +106,8 @@ const Register = () => {
         <Form.Control type="file" onChange={e => setAvatar(e.target.files[0])}/>
       </Form.Group>
 
-      <Button variant="primary" type="submit">
-        Submit
+      <Button variant="danger" type="submit">
+        Register
       </Button>
 
     </Form>

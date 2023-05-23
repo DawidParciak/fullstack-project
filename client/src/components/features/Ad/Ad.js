@@ -2,8 +2,8 @@ import { useSelector } from "react-redux";
 import { getUser } from "../../../redux/usersRedux";
 
 const { Button, Col, Card, Row } = require("react-bootstrap");
-const { IMGS_URL } = require("../../../config");
-const { Link } = require("react-router-dom");
+const { IMG_URL } = require("../../../config");
+const { Link, NavLink } = require("react-router-dom");
 
 const Ad = ({ title, content, date, photo, price, localization, seller, _id }) => {
   const user = useSelector(getUser);
@@ -28,7 +28,7 @@ const Ad = ({ title, content, date, photo, price, localization, seller, _id }) =
           className="img-fluid"
           style={{ objectFit: "cover", height: "300px" }}
           variant="top"
-          src={IMGS_URL + photo}
+          src={IMG_URL + photo}
           alt={"offer: " + title}
         />
         <Card.Body>
@@ -37,9 +37,9 @@ const Ad = ({ title, content, date, photo, price, localization, seller, _id }) =
           <Card.Text>{localization}</Card.Text>
           <Row>
             <Col>
-              <Link to={"/ad/" + _id}>
+              <NavLink to={"/ad/" + _id}>
                 <Button variant="danger">Read more</Button>
-              </Link>
+              </NavLink>
             </Col>
             <Col>
               {renderEditButton()}

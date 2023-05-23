@@ -1,72 +1,63 @@
-import axios from 'axios';
-import { API_URL } from '../../src/config'
+import { API_URL } from '../config.js';
+import shortid from 'shortid';
 
-/* SELECTORS */
-export const getAds = ({ ads }) => ads.data;
-export const getRequest = ({ ads }) => ads.request;
+// selectors
+export const getAllAds = ({ ads }) => ads;
+export const getAdById = ({ ads }, id) => ads.find(ad => ad._id === id);
 
-/* ACTIONS */
+// actions
+const createActionName = (actionName) => `app/ads/${actionName}`;
+const EDIT_AD = createActionName('EDIT_AD');
+const UPDATE_ADS = createActionName('UPDATE_ADS');
+const ADD_AD = createActionName('ADD_AD');
+const REMOVE_AD = createActionName('REMOVE_AD');
+const SEARCH_ADS = createActionName('SEARCH_ADS');
 
-// action name creator
-const reducerName = 'ads';
-const createActionName = name => `app/${reducerName}/${name}`;
+// action creators
+export const editAd = (payload) => ({ type: EDIT_AD, payload });
+export const updateAds = (payload) => ({ type: UPDATE_ADS, payload });
+export const addAd = (payload) => ({ type: ADD_AD, payload });
+export const removeAd = (payload) => ({ type: REMOVE_AD, payload });
+export const searchAd = (searchPhrase) => ({
+  type: SEARCH_ADS,
+  payload: { searchPhrase },
+});
 
-const START_REQUEST = createActionName('START_REQUEST');
-const END_REQUEST = createActionName('END_REQUEST');
-const ERROR_REQUEST = createActionName('ERROR_REQUEST');
+export const fetchData = () => {
+  return (dispatch) => {
+    fetch(API_URL + 'api/ads')
+      .then((res) => res.json())
 
-const LOAD_ADS = createActionName('LOAD_ADS');
-
-export const startRequest = () => ({ type: START_REQUEST });
-export const endRequest = () => ({ type: END_REQUEST });
-export const errorRequest = error => ({ error, type: ERROR_REQUEST });
-
-export const loadAds = payload => ({ payload, type: LOAD_ADS });
-
-
-/* THUNKS */
-
-export const loadAdsRequest = () => {
-  return async dispatch => {
-
-    dispatch(startRequest());
-    try {
-
-      let res = await axios.get(`${API_URL}/api/ads`);
-      dispatch(loadAds(res.data));
-      dispatch(endRequest());
-
-    } catch(e) {
-      dispatch(errorRequest(e.message));
-    }
-
+      .then((ads) => dispatch(updateAds(ads)));
   };
 };
 
-/* INITIAL STATE */
-
-const initialState = {
-  data: [],
-  request: {
-    pending: false,
-    error: null,
-    success: null,
-  },
+export const fetchAdvertBySearchPhrase = (searchPhrase) => {
+  return (dispatch) => {
+    fetch(API_URL + 'api/ads/search/' + searchPhrase)
+      .then((res) => res.json())
+      .then((ads) => dispatch(updateAds(ads)));
+    dispatch(searchAd(searchPhrase));
+  };
 };
 
-/* REDUCER */
-
-export default function reducer(statePart = initialState, action = {}) {
+const adsReducer = (statePart = [], action) => {
   switch (action.type) {
-    case LOAD_ADS: 
-      return { ...statePart, data: [...action.payload] };
-    case START_REQUEST:
-      return { ...statePart, request: { pending: true, error: null, success: false } };
-    case END_REQUEST:
-      return { ...statePart, request: { pending: false, error: null, success: true } };
-    case ERROR_REQUEST:
-      return { ...statePart, request: { pending: false, error: action.error, success: false } };
+    case EDIT_AD:
+      return statePart.map((ad) =>
+        ad.id === action.payload.id ? { ...ad, ...action.payload } : ad
+      );
+    case UPDATE_ADS:
+      return [...action.payload];
+    case ADD_AD:
+      return [...statePart, { ...action.payload, id: shortid() }];
+    case REMOVE_AD:
+      return statePart.filter((ad) => ad._id !== action.payload);
+    case SEARCH_ADS:
+      return statePart.filter((ad) => ad.title.includes(action.payload));
     default:
       return statePart;
   }
-}
+};
+
+export default adsReducer;

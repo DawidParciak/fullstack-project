@@ -7,7 +7,8 @@ const adSchema = new mongoose.Schema({
   photo: { type: String, required: true },
   price: { type: Number, required: true },
   localization: { type: String, required: true },
-  seller: { type: String, required: true }
+  seller: { type: String, required: true },
+  phone: { type: String, required: true }
 });
 
 module.exports = mongoose.model('ad', adSchema);

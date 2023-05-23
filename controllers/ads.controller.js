@@ -26,7 +26,7 @@ exports.postNewAd = async (req, res) => {
   try {
     const photo = req.file;
     const fileType = photo ? await getImageFileType(photo) : 'unknown';
-    const { title, content, date, price, localization } = req.body;
+    const { title, content, date, price, localization, seller, phone } = req.body;
     if(
       title.length > 10 && title.length < 50 &&
       content.length > 20 && content.length < 1000 &&
@@ -39,7 +39,8 @@ exports.postNewAd = async (req, res) => {
         price,
         localization,
         photo: photo.filename,
-        seller: req.session.user.login
+        seller,
+        phone
       })
       await newAd.save();
       res.json( newAd )
