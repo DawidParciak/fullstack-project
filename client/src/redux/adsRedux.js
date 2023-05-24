@@ -1,5 +1,7 @@
 import { API_URL } from '../config.js';
 import shortid from 'shortid';
+import { endRequest, startRequest } from './requestRedux.js';
+import axios from 'axios'
 
 // selectors
 export const getAllAds = ({ ads }) => ads;
@@ -24,11 +26,17 @@ export const searchAd = (searchPhrase) => ({
 });
 
 export const fetchData = () => {
-  return (dispatch) => {
-    fetch(API_URL + 'api/ads')
-      .then((res) => res.json())
+  return async (dispatch) => {
+    dispatch(startRequest())
+    try {
+    let res = await axios.get(API_URL + 'api/ads')
 
-      .then((ads) => dispatch(updateAds(ads)));
+      dispatch(updateAds(res.data));
+      dispatch(endRequest());
+    }
+    catch (err) {
+      
+    }
   };
 };
 

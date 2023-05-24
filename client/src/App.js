@@ -6,7 +6,7 @@ import Home from "./components/pages/Home/Home";
 import AdAdd from "./components/pages/AdAdd/AdAdd";
 import AdEditPage from "./components/pages/AdEditPage/AdEditPage";
 import AdRemove from "./components/pages/AdRemove/AdRemove";
-import Search from "./components/pages/Search/Search";
+import SearchPage from "./components/pages/SearchPage/SearchPage";
 import Login from "./components/pages/Login/Login";
 import Register from "./components/pages/Register/Register";
 import Logout from "./components/pages/Logout/Logout";
@@ -21,7 +21,9 @@ function App() {
 
   const dispatch = useDispatch();
 
-  useEffect(() => dispatch(fetchData()), [dispatch]);
+  useEffect(() => {
+    dispatch(fetchData())
+  }, [dispatch]);
 
   return (
     <main>
@@ -33,7 +35,7 @@ function App() {
           <Route path="/ad/add" element={<AdAdd />} />
           <Route path="/ad/edit/:id" element={<AdEditPage />} />
           <Route path="/ad/remove/:id" element={<AdRemove />} />
-          <Route path="/ad/search/:searchPhrase" element={<Search />} />
+          <Route path="/ad/search/:searchPhrase" element={<SearchPage />} />
           <Route path="/user" element={<User />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
