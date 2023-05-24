@@ -60,14 +60,14 @@ exports.putById = async (req, res) => {
   try {
     const photo = req.file;
     const fileType = photo ? await getImageFileType(photo) : 'unknown';
-    const { title, content, date, price, localization } = req.body;
+    const { title, content, phone, price, localization } = req.body;
     const adToEdit = await Ad.findById(req.params.id);
     if(adToEdit) {
       adToEdit.title = title;
       adToEdit.content = content;
-      adToEdit.date = date,
       adToEdit.price = price;
       adToEdit.localization = localization;
+      adToEdit.phone = phone
       if (photo && ['image/png', 'image/jpeg', 'image/gif'].includes(fileType)) {
         adToEdit.photo = photo.filename;
       }

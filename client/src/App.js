@@ -4,7 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import Ad from "./components/pages/Ad/Ad";
 import Home from "./components/pages/Home/Home";
 import AdAdd from "./components/pages/AdAdd/AdAdd";
-import AdEdit from "./components/pages/AdEdit/AdEdit";
+import AdEditPage from "./components/pages/AdEditPage/AdEditPage";
 import AdRemove from "./components/pages/AdRemove/AdRemove";
 import Search from "./components/pages/Search/Search";
 import Login from "./components/pages/Login/Login";
@@ -31,7 +31,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/ad/:id" element={<Ad />} />
           <Route path="/ad/add" element={<AdAdd />} />
-          <Route path="/ad/edit/:id" element={<AdEdit />} />
+          <Route path="/ad/edit/:id" element={<AdEditPage />} />
           <Route path="/ad/remove/:id" element={<AdRemove />} />
           <Route path="/ad/search/:searchPhrase" element={<Search />} />
           <Route path="/user" element={<User />} />
