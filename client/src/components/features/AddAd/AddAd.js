@@ -13,7 +13,7 @@ const AddAdForm = () => {
   const [title, setTitle] = useState('');
   const [price, setPrice] = useState('');
   const [localization, setLocalization] = useState('');
-  const [phone, setPhone] = useState('');
+  const [phone, setPhone] = useState(user.phone || '');
   const [content, setContent] = useState('');
   const [photo, setPhoto] = useState(null);
   const [status, setStatus] = useState(null);
@@ -59,7 +59,7 @@ const AddAdForm = () => {
 
 
     return(
-    <section className="d-flex align-items-center justify-content-between">c
+    <section className="d-flex align-items-center justify-content-between">
 
       <div className="col-12 col-sm-5 ms-5">
         <Form onSubmit={handleSubmit}>
@@ -94,7 +94,7 @@ const AddAdForm = () => {
                     
           <Form.Group className="mb-3" controlId="formLocalization">
             <Form.Label>Phone</Form.Label>
-            <Form.Control type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder="Enter phone number" />
+            <Form.Control type="tel" value={user.phone} onChange={e => setPhone(e.target.value)} placeholder="Enter phone number" />
           </Form.Group> 
 
           <Form.Group className="mb-3" controlId="formContent">

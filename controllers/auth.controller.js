@@ -64,8 +64,22 @@ exports.login = async (req, res) => {
 };
 
 exports.getUser = async (req, res) => {
-  res.send({message: 'Yeah! I\'m logged'})
-}
+  try {
+    if (req.session.user) {
+      const user = await User.findOne({ login: req.session.user.login });
+      if (user) {
+        const { login, phone, avatar } = user;
+        res.send({ login, phone, avatar });
+      } else {
+        res.status(404).send({ message: 'User not found' });
+      }
+    } else {
+      res.status(401).send({ message: 'Unauthorized'  });
+    }
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+};
 
 exports.logout = async (req, res) => {
   try {

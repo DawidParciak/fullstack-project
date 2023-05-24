@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Alert, Button, Form, Spinner } from "react-bootstrap";
 import { API_URL } from "../../../config";
 import { useDispatch } from "react-redux";
-import { logIn } from "../../../redux/usersRedux";
+import { fetchUserData, logIn } from "../../../redux/usersRedux";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -30,6 +30,7 @@ const Login = () => {
         if (res.status === 200) {
           setStatus('success');
           dispatch(logIn({ login }))
+          dispatch(fetchUserData())
           setTimeout(() => {
             navigate("/");
           }, 1500);
