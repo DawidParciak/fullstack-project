@@ -43,11 +43,11 @@ exports.postNewAd = async (req, res) => {
         phone
       })
       await newAd.save();
-      res.json( newAd )
+      res.status(201).send({ message: 'Ad created'})
     }
     else {
       fs.unlinkSync(`./public/uploads/${photo.filename}`);
-      res.status(500).json({ message: 'Title or content have wrong amount of characters' });
+      res.status(400).json({ message: 'Title or content have wrong amount of characters' });
     }
   } 
   catch(err) {
@@ -72,7 +72,7 @@ exports.putById = async (req, res) => {
         adToEdit.photo = photo.filename;
       }
       await adToEdit.save();
-      res.json({ message: 'Ad edited' });
+      res.status(200).send({ message: 'Ad edited'})
     }
     else {
       fs.unlinkSync(`./public/uploads/${photo.filename}`);

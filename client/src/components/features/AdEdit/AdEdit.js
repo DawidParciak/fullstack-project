@@ -1,10 +1,11 @@
-import { Button, Form, Image, Spinner } from "react-bootstrap";
+import { Alert, Button, Form, Image, Spinner } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../../../redux/usersRedux";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { API_URL, IMG_URL } from "../../../config";
 import { fetchData, getAdById } from "../../../redux/adsRedux";
+import CountdownTimer from "../CountdownTimer/CountdownTimer";
 
 const AdEdit = () => {
 
@@ -51,10 +52,9 @@ const AdEdit = () => {
     .then(res => {
       if (res.status === 200) {
         setStatus('success');
-        navigate('/');
       }
       else if (res.status === 401) {
-        setStatus('clientError');
+        setStatus('adError');
       }
       else {
         setStatus('serverError');
@@ -64,11 +64,6 @@ const AdEdit = () => {
       setStatus('serverError');
     });
 };
-
-
-
-
-
 
   return(
     <section className="d-flex align-items-center justify-content-between">
@@ -82,6 +77,28 @@ const AdEdit = () => {
             <Spinner animation="border" role="status" className="block mx-auto">
               <span className="visually-hidden">Loading...</span>
             </Spinner>
+          )}
+
+          {status === "success" && (
+            <Alert variant="success">
+              <Alert.Heading>Success!</Alert.Heading>
+              <p>You are successfully add your ad!</p>
+              <CountdownTimer seconds={3} onComplete={() => navigate('/')} />
+            </Alert>
+          )}
+
+          {status === "adError" && (
+            <Alert variant="danger">
+              <Alert.Heading>Can not find ad</Alert.Heading>
+              <p>Ad id is incorrect</p>
+            </Alert>
+          )}
+
+          {status === "serverError" && (
+            <Alert variant="danger">
+              <Alert.Heading>Something went wrong...</Alert.Heading>
+              <p>Unexpected error... Try again!</p>
+            </Alert>
           )}
 
           <Form.Group className="mb-3" controlId="formTitle">

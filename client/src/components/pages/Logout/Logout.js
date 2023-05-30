@@ -4,9 +4,9 @@ import { API_URL } from "../../../config";
 import { logOut } from "../../../redux/usersRedux";
 import { useNavigate } from "react-router-dom";
 import { Alert, Col } from "react-bootstrap";
+import CountdownTimer from "../../features/CountdownTimer/CountdownTimer";
 
 const Logout = () => {
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -18,9 +18,6 @@ const Logout = () => {
     fetch(`${API_URL}auth/logout`, options)
       .then(() => {
         dispatch(logOut());
-        setTimeout(() => {
-          navigate("/");
-        }, 2000);
       });
   }, [dispatch, navigate]);
 
@@ -30,6 +27,7 @@ const Logout = () => {
         <Alert variant="success" className="text-center">
           <Alert.Heading>Success!</Alert.Heading>
           <p>You have been successfully logged out</p>
+          <CountdownTimer seconds={3} onComplete={() => navigate('/')} />
         </Alert>
       </Col>
     </div>

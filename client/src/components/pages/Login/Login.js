@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { Alert, Button, Form, Spinner } from "react-bootstrap";
-import { API_URL } from "../../../config";
-import { useDispatch } from "react-redux";
-import { fetchUserData, logIn } from "../../../redux/usersRedux";
-import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import { Alert, Button, Form, Spinner } from 'react-bootstrap';
+import { API_URL } from '../../../config';
+import { useDispatch } from 'react-redux';
+import { fetchUserData, logIn } from '../../../redux/usersRedux';
+import { useNavigate } from 'react-router-dom';
+import CountdownTimer from '../../features/CountdownTimer/CountdownTimer'
 
 const Login = () => {
-
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const [status, setStatus] = useState(null);
@@ -19,9 +19,9 @@ const Login = () => {
     const options = {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ login, password })
+      body: JSON.stringify({ login, password }),
     };
 
     setStatus('loading');
@@ -29,51 +29,47 @@ const Login = () => {
       .then(res => {
         if (res.status === 200) {
           setStatus('success');
-          dispatch(logIn({ login }))
-          dispatch(fetchUserData())
-          setTimeout(() => {
-            navigate("/");
-          }, 1500);
-        }
-        else if (res.status === 400) {
+          dispatch(logIn({ login }));
+          dispatch(fetchUserData());
+
+        } else if (res.status === 400) {
           setStatus('clientError');
-        }
-        else {
+        } else {
           setStatus('serverError');
         }
       })
       .catch(err => {
         setStatus('serverError');
       });
-  } 
+  };
 
-  return(
+  return (
     <Form className="col-12 col-sm-4 ms-5" onSubmit={handleSubmit}>
-
       <h1 className="my-5">Login</h1>
 
-      {status === "success" && (
+      {status === 'success' && (
         <Alert variant="success">
           <Alert.Heading>Success!</Alert.Heading>
           <p>You have been successfully logged in</p>
+          <CountdownTimer seconds={3} onComplete={() => navigate('/')} />
         </Alert>
       )}
 
-      {status === "serverError" && (
+      {status === 'serverError' && (
         <Alert variant="danger">
           <Alert.Heading>Something went wrong...</Alert.Heading>
           <p>Unexpected error... Try again!</p>
         </Alert>
       )}
 
-      {status === "clientError" && (
+      {status === 'clientError' && (
         <Alert variant="danger">
           <Alert.Heading>Incorrect data</Alert.Heading>
-          <p>Login or password are incorrect...</p>
+          <p>Login or password is incorrect...</p>
         </Alert>
       )}
 
-      {status === "loading" && (
+      {status === 'loading' && (
         <Spinner animation="border" role="status" className="block mx-auto">
           <span className="visually-hidden">Loading...</span>
         </Spinner>

@@ -3,12 +3,11 @@ import AdBox from "../../features/AdBox/AdBox";
 import { Container, Row, Col, Alert } from "react-bootstrap"
 import { fetchAdvertBySearchPhrase, getAllAds } from "../../../redux/adsRedux";
 import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const SearchPage = () => {
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { searchPhrase } = useParams();
   const ads = useSelector(getAllAds);
 

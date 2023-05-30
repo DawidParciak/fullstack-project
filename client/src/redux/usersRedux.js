@@ -1,4 +1,6 @@
 import { API_URL } from "../config";
+import { endRequest, startRequest } from "./requestRedux";
+import axios from "axios";
 
 // selectors
 export const getUser = ({ user }) => user;
@@ -27,13 +29,19 @@ export const logOut = () => ({
 });
 
 export const fetchUserData = () => {
-    return (dispatch) => {
-      fetch(API_URL + 'auth/user')
-        .then((res) => res.json())
-  
-        .then((user) => dispatch(updateData(user)));
-    };
+  return async (dispatch) => {
+    dispatch(startRequest())
+    try {
+      let res = await axios.get(API_URL + 'auth/user')
+
+      dispatch(updateData(res.data));
+      dispatch(endRequest())
+    }
+    catch (err) {
+
+    }
   };
+};
 
 
 // initial state 

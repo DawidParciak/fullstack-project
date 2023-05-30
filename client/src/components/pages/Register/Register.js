@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Alert, Button, Form, Spinner } from "react-bootstrap";
 import { API_URL } from "../../../config";
+import CountdownTimer from "../../features/CountdownTimer/CountdownTimer";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
 
@@ -10,6 +12,7 @@ const Register = () => {
   const [avatar, setAvatar] = useState(null);
   const [status, setStatus] = useState(null);
 
+  const navigate = useNavigate();
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -56,6 +59,7 @@ const Register = () => {
         <Alert variant="success">
           <Alert.Heading>Success!</Alert.Heading>
           <p>You have been successfully registred! You can now log in...</p>
+          <CountdownTimer seconds={3} onComplete={() => navigate('/')} />
         </Alert>
       )}
 

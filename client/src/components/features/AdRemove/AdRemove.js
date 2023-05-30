@@ -1,3 +1,5 @@
+import CountdownTimer from "../CountdownTimer/CountdownTimer";
+
 const { useEffect } = require("react");
 const { useDispatch } = require("react-redux");
 const { API_URL } = require("../../../config");
@@ -19,9 +21,6 @@ const AdRemove = () => {
     fetch(`${API_URL}api/ads/${id}`, options)
       .then(() => {
         dispatch(removeAd(id));
-        setTimeout(() => {
-          navigate("/");
-        }, 2000);
       });
   }, [dispatch, navigate, id]);
 
@@ -31,6 +30,7 @@ const AdRemove = () => {
         <Alert variant="success" className="text-center">
           <Alert.Heading>Success!</Alert.Heading>
           <p>You are successfully delete add</p>
+          <CountdownTimer seconds={3} onComplete={() => navigate('/')} />
         </Alert>
       </Col>
     </div>
