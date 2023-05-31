@@ -1,11 +1,11 @@
 import Header from "./components/views/Header/Header";
 import Footer from "./components/views/Footer/Footer";
 import { Route, Routes } from "react-router-dom";
-import Ad from "./components/features/Ad/Ad";
+import Ad from "./components/pages/Ad/Ad";
 import Home from "./components/pages/Home/Home";
 import AdAdd from "./components/pages/AdAdd/AdAdd";
 import AdEditPage from "./components/pages/AdEditPage/AdEditPage";
-import AdRemove from "./components/features/AdRemove/AdRemove";
+import AdRemove from "./components/pages/AdRemove/AdRemove";
 import SearchPage from "./components/pages/SearchPage/SearchPage";
 import Login from "./components/pages/Login/Login";
 import Register from "./components/pages/Register/Register";

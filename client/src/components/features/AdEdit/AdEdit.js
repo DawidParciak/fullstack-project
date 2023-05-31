@@ -1,4 +1,4 @@
-import { Alert, Button, Form, Image, Spinner } from "react-bootstrap";
+import { Alert, Button, Form, Image, InputGroup, Spinner } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../../../redux/usersRedux";
 import { useEffect, useState } from "react";
@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { API_URL, IMG_URL } from "../../../config";
 import { fetchData, getAdById } from "../../../redux/adsRedux";
 import CountdownTimer from "../CountdownTimer/CountdownTimer";
+import { useForm } from "react-hook-form";
 
 const AdEdit = () => {
 
@@ -13,6 +14,21 @@ const AdEdit = () => {
   const user = useSelector(getUser);
   const { id } = useParams();
   const adData = useSelector((state) => getAdById(state, id));
+
+  const {
+    register, 
+    handleSubmit: validate,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  useEffect(() => {
+    const subscription = watch((value, { name, type }) => {
+      console.log(">>", value, name, type);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [watch]);
 
   useEffect(() => {
     if (!adData) {
@@ -30,12 +46,11 @@ const AdEdit = () => {
 
   const navigate = useNavigate();
 
-  const handleSubmit = e => {
-    e.preventDefault();
+  const handleSubmit = (e) => {
 
     const fd = new FormData();
     fd.append('title', title);
-    fd.append('content', content)
+    fd.append('content', content);
     fd.append('photo', photo);
     fd.append('price', price);
     fd.append('localization', localization);
@@ -69,9 +84,9 @@ const AdEdit = () => {
     <section className="d-flex align-items-center justify-content-between">
 
       <div className="col-12 col-sm-5 ms-5">
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={validate(handleSubmit)}>
 
-          <h1 className="my-5">Ad your's add!</h1>
+          <h1 className="my-5">Edit your's add!</h1>
 
           {status === "loading" && (
             <Spinner animation="border" role="status" className="block mx-auto">
@@ -82,7 +97,7 @@ const AdEdit = () => {
           {status === "success" && (
             <Alert variant="success">
               <Alert.Heading>Success!</Alert.Heading>
-              <p>You are successfully add your ad!</p>
+              <p>You are successfully edit your ad!</p>
               <CountdownTimer seconds={3} onComplete={() => navigate('/')} />
             </Alert>
           )}
@@ -103,35 +118,111 @@ const AdEdit = () => {
 
           <Form.Group className="mb-3" controlId="formTitle">
             <Form.Label>Title</Form.Label>
-            <Form.Control type="text" value={title} onChange={e => setTitle(e.target.value)} placeholder="Enter title" />
+            <Form.Control 
+              {...register('title', {
+                required: true,
+                minLength: 10,
+                maxLength: 50,
+              })}
+              type="text" 
+              value={title} 
+              onChange={e => setTitle(e.target.value)} 
+              placeholder="Enter title" 
+            />
+            {errors.title && (
+              <small className='d-block form-text mt-2 p-2 bg-danger text-white rounded'>
+                This field is required and has to be between 10 to 50 characters long.
+              </small>
+            )}
           </Form.Group>    
 
           <Form.Group className="mb-3" controlId="formPhoto">
             <Form.Label>Photo</Form.Label>
-            <Form.Control type="file" onChange={e => setPhoto(e.target.files[0])} />
+            <Form.Control 
+              type="file" 
+              onChange={e => setPhoto(e.target.files[0])} 
+            />
           </Form.Group>
           
           <Form.Group className="mb-3" controlId="formPrice">
             <Form.Label>Price</Form.Label>
-            <Form.Control type="number" value={price} onChange={e => setPrice(e.target.value)} placeholder="Enter price" />
+            <InputGroup>
+              <Form.Control 
+                {...register('price', {
+                  required: true,
+                })}
+                type="number" 
+                value={price} 
+                onChange={e => setPrice(e.target.value)} 
+                placeholder="Enter price" 
+              />
+              <InputGroup.Text>$</InputGroup.Text>
+            </InputGroup>
+            {errors.price && (
+              <small className='d-block form-text mt-2 p-2 bg-danger text-white rounded'>
+                This field is required.
+              </small>
+            )}
           </Form.Group> 
           
           <Form.Group className="mb-3" controlId="formLocalization">
             <Form.Label>Localization</Form.Label>
-            <Form.Control type="text" value={localization} onChange={e => setLocalization(e.target.value)} placeholder="Enter localization" />
+            <Form.Control 
+              {...register('localization', {
+                required: true,
+              })}
+              type="text" 
+              value={localization} 
+              onChange={e => setLocalization(e.target.value)} 
+              placeholder="Enter localization" 
+            />
+            {errors.localization && (
+              <small className='d-block form-text mt-2 p-2 bg-danger text-white rounded'>
+                This field is required.
+              </small>
+            )}
           </Form.Group> 
                     
-          <Form.Group className="mb-3" controlId="formLocalization">
+          <Form.Group className="mb-3" controlId="formPhone">
             <Form.Label>Phone</Form.Label>
-            <Form.Control type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder="Enter phone number" />
+            <Form.Control 
+               {...register('phone', {
+                required: true,
+              })}
+              type="tel" 
+              value={user.phone} 
+              onChange={e => setPhone(e.target.value)} 
+              placeholder="Enter phone number" 
+            />
+            {errors.phone && (
+              <small className='d-block form-text mt-2 p-2 bg-danger text-white rounded'>
+                This field is required.
+              </small>
+            )}
           </Form.Group> 
 
           <Form.Group className="mb-3" controlId="formContent">
             <Form.Label>Content</Form.Label>
-            <Form.Control as="textarea" rows="5" value={content} onChange={e => setContent(e.target.value)} placeholder="Enter content" />
+            <Form.Control 
+               {...register('content', {
+                required: true,
+                minLength: 20,
+                maxLength: 1000,
+              })}
+              as="textarea" 
+              rows="5" 
+              value={content} 
+              onChange={e => setContent(e.target.value)} 
+              placeholder="Enter content" 
+            />
+            {errors.content && (
+              <small className='d-block form-text mt-2 p-2 bg-danger text-white rounded'>
+                This field is required and has to be between 20 to 1000 characters long.
+              </small>
+            )}
           </Form.Group> 
 
-          <Button type="submit" variant="danger"  className="col-sm-6 py-2">
+          <Button type="submit" variant="success"  className="col-sm-6 py-2">
             Submit
           </Button>
           

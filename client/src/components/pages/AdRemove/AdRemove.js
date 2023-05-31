@@ -1,4 +1,4 @@
-import CountdownTimer from "../CountdownTimer/CountdownTimer";
+import CountdownTimer from "../../features/CountdownTimer/CountdownTimer";
 
 const { useEffect } = require("react");
 const { useDispatch } = require("react-redux");

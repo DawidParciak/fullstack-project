@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, Button, Form, Image, InputGroup, Spinner } from 'react-bootstrap';
 import { API_URL } from '../../../config';
 import { useSelector } from 'react-redux';
@@ -6,6 +6,7 @@ import { getUser } from '../../../redux/usersRedux';
 import { useNavigate } from 'react-router-dom';
 import styles from './AddAd.module.scss';
 import CountdownTimer from '../CountdownTimer/CountdownTimer';
+import { useForm } from 'react-hook-form'
 
 const AddAd = () => {
 
@@ -22,8 +23,22 @@ const AddAd = () => {
 
   const navigate = useNavigate();
 
+  const {
+    register, 
+    handleSubmit: validate,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  useEffect(() => {
+    const subscription = watch((value, { name, type }) => {
+      console.log(">>", value, name, type);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [watch]);
+
   const handleSubmit = e => {
-    e.preventDefault();
 
     const fd = new FormData();
     fd.append('title', title);
@@ -43,7 +58,7 @@ const AddAd = () => {
     setStatus('loading');
     fetch(`${API_URL}api/ads`, options)
       .then(res => {
-        if (res.status === 200) {
+        if (res.status === 201) {
           setStatus('success');
         }
         else if (res.status === 400) {
@@ -62,7 +77,7 @@ const AddAd = () => {
     <section className="d-flex align-items-center justify-content-between">
 
       <div className="col-12 col-sm-5 ms-5">
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={validate(handleSubmit)}>
 
           <h1 className="my-5">Ad your's add!</h1>
 
@@ -96,38 +111,119 @@ const AddAd = () => {
 
           <Form.Group className="mb-3" controlId="formTitle">
             <Form.Label>Title</Form.Label>
-            <Form.Control minLength={10} maxLength={50} type="text" value={title} onChange={e => setTitle(e.target.value)} placeholder="Enter title" />
+            <Form.Control 
+              {...register('title', {
+                required: true,
+                minLength: 10,
+                maxLength: 50,
+              })}
+              type="text" 
+              value={title} 
+              onChange={e => setTitle(e.target.value)} 
+              placeholder="Enter title" 
+            />
+            {errors.title && (
+              <small className='d-block form-text mt-2 p-2 bg-danger text-white rounded'>
+                This field is required and has to be between 10 to 50 characters long.
+              </small>
+            )}
           </Form.Group>    
 
           <Form.Group className="mb-3" controlId="formPhoto">
             <Form.Label>Photo</Form.Label>
-            <Form.Control required type="file" onChange={e => setPhoto(e.target.files[0])} />
+            <Form.Control 
+              {...register('photo', {
+                required: true,
+              })} 
+              type="file" 
+              onChange={e => setPhoto(e.target.files[0])} 
+            />
+            {errors.photo && (
+              <small className='d-block form-text mt-2 p-2 bg-danger text-white rounded'>
+                This field is required.
+              </small>
+            )}
           </Form.Group>
           
           <Form.Group className="mb-3" controlId="formPrice">
             <Form.Label>Price</Form.Label>
             <InputGroup>
-              <Form.Control type="number" value={price} onChange={e => setPrice(e.target.value)} placeholder="Enter price" />
+              <Form.Control 
+                {...register('price', {
+                  required: true,
+                })}
+                type="number" 
+                value={price} 
+                onChange={e => setPrice(e.target.value)} 
+                placeholder="Enter price" 
+              />
               <InputGroup.Text>$</InputGroup.Text>
             </InputGroup>
+            {errors.price && (
+              <small className='d-block form-text mt-2 p-2 bg-danger text-white rounded'>
+                This field is required.
+              </small>
+            )}
           </Form.Group> 
           
           <Form.Group className="mb-3" controlId="formLocalization">
             <Form.Label>Localization</Form.Label>
-            <Form.Control type="text" value={localization} onChange={e => setLocalization(e.target.value)} placeholder="Enter localization" />
+            <Form.Control 
+              {...register('localization', {
+                required: true,
+              })}
+              type="text" 
+              value={localization} 
+              onChange={e => setLocalization(e.target.value)} 
+              placeholder="Enter localization" 
+            />
+            {errors.localization && (
+              <small className='d-block form-text mt-2 p-2 bg-danger text-white rounded'>
+                This field is required.
+              </small>
+            )}
           </Form.Group> 
                     
-          <Form.Group className="mb-3" controlId="formLocalization">
+          <Form.Group className="mb-3" controlId="formPhone">
             <Form.Label>Phone</Form.Label>
-            <Form.Control type="tel" value={user.phone} onChange={e => setPhone(e.target.value)} placeholder="Enter phone number" />
+            <Form.Control 
+               {...register('phone', {
+                required: true,
+              })}
+              type="tel" 
+              value={user.phone} 
+              onChange={e => setPhone(e.target.value)} 
+              placeholder="Enter phone number" 
+            />
+            {errors.phone && (
+              <small className='d-block form-text mt-2 p-2 bg-danger text-white rounded'>
+                This field is required.
+              </small>
+            )}
           </Form.Group> 
 
           <Form.Group className="mb-3" controlId="formContent">
             <Form.Label>Content</Form.Label>
-            <Form.Control as="textarea" rows="5" value={content} onChange={e => setContent(e.target.value)} placeholder="Enter content" />
+            <Form.Control 
+               {...register('content', {
+                required: true,
+                minLength: 20,
+                maxLength: 1000,
+              })}
+              as="textarea" 
+              rows="5" 
+              value={content} 
+              onChange={e => setContent(e.target.value)} 
+              placeholder="Enter content" 
+            />
+            {errors.content && (
+              <small className='d-block form-text mt-2 p-2 bg-danger text-white rounded'>
+                This field is required and has to be between 20 to 1000 characters long.
+              </small>
+            )}
           </Form.Group> 
 
-          <Button type="submit" variant="danger"  className="col-sm-6 py-2">
+          <Button type="submit" variant="success"  className="col-sm-6 py-2">
             Submit
           </Button>
           

@@ -10,7 +10,7 @@ import { IMG_URL } from '../../../config';
 import { getUser } from "../../../redux/usersRedux";
 import styles from './Ad.module.scss';
 import moment from 'moment'
-import DeleteModal from '../DeleteModal/DeleteModal';
+import DeleteModal from '../../features/DeleteModal/DeleteModal';
 
 const Ad = () => {
   const dispatch = useDispatch();
