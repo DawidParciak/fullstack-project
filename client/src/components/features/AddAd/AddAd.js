@@ -25,7 +25,7 @@ const AddAd = () => {
 
   const {
     register, 
-    handleSubmit: validate,
+    handleSubmit,
     watch,
     formState: { errors },
   } = useForm({ 
@@ -40,7 +40,7 @@ const AddAd = () => {
     return () => subscription.unsubscribe();
   }, [watch]);
 
-  const handleSubmit = e => {
+  const handleFormSubmit = data => {
 
     const fd = new FormData();
     fd.append('title', title);
@@ -79,7 +79,7 @@ const AddAd = () => {
     <section className="d-flex align-items-center justify-content-between">
 
       <div className="col-12 col-sm-5 ms-5">
-        <Form onSubmit={validate(handleSubmit)}>
+        <Form onSubmit={handleSubmit(handleFormSubmit)}>
 
           <h1 className="my-5">Ad your's add!</h1>
 

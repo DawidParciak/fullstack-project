@@ -17,7 +17,7 @@ const AdEdit = () => {
 
   const {
     register, 
-    handleSubmit: validate,
+    handleSubmit,
     watch,
     formState: { errors },
   } = useForm({ 
@@ -48,7 +48,7 @@ const AdEdit = () => {
 
   const navigate = useNavigate();
 
-  const onSubmit = () => {
+  const handleFormSubmit = () => {
     const fd = new FormData();
     fd.append('title', title);
     fd.append('content', content);
@@ -83,7 +83,7 @@ const AdEdit = () => {
     <section className="d-flex align-items-center justify-content-between">
 
       <div className="col-12 col-sm-5 ms-5">
-        <Form onSubmit={validate(onSubmit)}>
+        <Form onSubmit={handleSubmit(handleFormSubmit)}>
           <h1 className="my-5">Edit your ad!</h1>
 
           {status === "loading" && (
