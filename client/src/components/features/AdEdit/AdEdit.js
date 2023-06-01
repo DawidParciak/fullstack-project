@@ -11,6 +11,7 @@ import { useForm } from "react-hook-form";
 const AdEdit = () => {
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const user = useSelector(getUser);
   const { id } = useParams();
   const adData = useSelector((state) => getAdById(state, id));
@@ -38,15 +39,19 @@ const AdEdit = () => {
     }
   }, [adData, dispatch]);
 
+  useEffect(() => {
+    if (!user) {
+      navigate('/login');
+    }
+  }, [user, navigate]);
+
   const [title, setTitle] = useState(adData?.title || '');
   const [price, setPrice] = useState(adData?.price || '');
   const [localization, setLocalization] = useState(adData?.localization || '');
-  const [phone, setPhone] = useState(adData?.phone || user.phone || '');
+  const [phone, setPhone] = useState(adData?.phone || '');
   const [content, setContent] = useState(adData?.content || '');
   const [photo, setPhoto] = useState(null);
   const [status, setStatus] = useState(null);
-
-  const navigate = useNavigate();
 
   const handleFormSubmit = () => {
     const fd = new FormData();
