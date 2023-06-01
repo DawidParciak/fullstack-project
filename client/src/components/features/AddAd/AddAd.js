@@ -28,7 +28,9 @@ const AddAd = () => {
     handleSubmit: validate,
     watch,
     formState: { errors },
-  } = useForm();
+  } = useForm({ 
+    mode: "onTouched",
+  });
 
   useEffect(() => {
     const subscription = watch((value, { name, type }) => {
@@ -99,7 +101,7 @@ const AddAd = () => {
           {status === "serverError" && (
             <Alert variant="danger">
               <Alert.Heading>Something went wrong...</Alert.Heading>
-              <p>Unexpected error... Try again!</p>
+              <p>An unexpected error occurred. Please try again!</p>
             </Alert>
           )}
 

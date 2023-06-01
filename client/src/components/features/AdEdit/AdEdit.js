@@ -20,7 +20,9 @@ const AdEdit = () => {
     handleSubmit: validate,
     watch,
     formState: { errors },
-  } = useForm();
+  } = useForm({ 
+    mode: "onTouched",
+  });
 
   useEffect(() => {
     const subscription = watch((value, { name, type }) => {
@@ -36,18 +38,17 @@ const AdEdit = () => {
     }
   }, [adData, dispatch]);
 
-  const [title, setTitle] = useState(adData.title || '');
-  const [price, setPrice] = useState(adData.price || '');
-  const [localization, setLocalization] = useState(adData.localization || '');
-  const [phone, setPhone] = useState(adData.phone || user.phone || '');
-  const [content, setContent] = useState(adData.content || '');
-  const [photo, setPhoto] = useState(adData.photo || null);
+  const [title, setTitle] = useState(adData?.title || '');
+  const [price, setPrice] = useState(adData?.price || '');
+  const [localization, setLocalization] = useState(adData?.localization || '');
+  const [phone, setPhone] = useState(adData?.phone || user.phone || '');
+  const [content, setContent] = useState(adData?.content || '');
+  const [photo, setPhoto] = useState(null);
   const [status, setStatus] = useState(null);
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-
+  const onSubmit = () => {
     const fd = new FormData();
     fd.append('title', title);
     fd.append('content', content);
@@ -55,7 +56,7 @@ const AdEdit = () => {
     fd.append('price', price);
     fd.append('localization', localization);
     fd.append('seller', user.login);
-    fd.append('phone', phone)
+    fd.append('phone', phone);
 
     const options = {
       method: 'PUT',
@@ -64,29 +65,26 @@ const AdEdit = () => {
 
     setStatus('loading');
     fetch(`${API_URL}api/ads/${id}`, options)
-    .then(res => {
-      if (res.status === 200) {
-        setStatus('success');
-      }
-      else if (res.status === 401) {
-        setStatus('adError');
-      }
-      else {
+      .then(res => {
+        if (res.status === 200) {
+          setStatus('success');
+        } else if (res.status === 401) {
+          setStatus('adError');
+        } else {
+          setStatus('serverError');
+        }
+      })
+      .catch(err => {
         setStatus('serverError');
-      }
-    })
-    .catch(err => {
-      setStatus('serverError');
-    });
-};
+      });
+  };
 
-  return(
+  return (
     <section className="d-flex align-items-center justify-content-between">
 
       <div className="col-12 col-sm-5 ms-5">
-        <Form onSubmit={validate(handleSubmit)}>
-
-          <h1 className="my-5">Edit your's add!</h1>
+        <Form onSubmit={validate(onSubmit)}>
+          <h1 className="my-5">Edit your ad!</h1>
 
           {status === "loading" && (
             <Spinner animation="border" role="status" className="block mx-auto">
@@ -97,22 +95,22 @@ const AdEdit = () => {
           {status === "success" && (
             <Alert variant="success">
               <Alert.Heading>Success!</Alert.Heading>
-              <p>You are successfully edit your ad!</p>
+              <p>You have successfully edited your ad!</p>
               <CountdownTimer seconds={3} onComplete={() => navigate('/')} />
             </Alert>
           )}
 
           {status === "adError" && (
             <Alert variant="danger">
-              <Alert.Heading>Can not find ad</Alert.Heading>
-              <p>Ad id is incorrect</p>
+              <Alert.Heading>Cannot find ad</Alert.Heading>
+              <p>The ad ID is incorrect</p>
             </Alert>
           )}
 
           {status === "serverError" && (
             <Alert variant="danger">
               <Alert.Heading>Something went wrong...</Alert.Heading>
-              <p>Unexpected error... Try again!</p>
+              <p>An unexpected error occurred. Please try again!</p>
             </Alert>
           )}
 
@@ -131,7 +129,7 @@ const AdEdit = () => {
             />
             {errors.title && (
               <small className='d-block form-text mt-2 p-2 bg-danger text-white rounded'>
-                This field is required and has to be between 10 to 50 characters long.
+                This field is required and must be between 10 and 50 characters long.
               </small>
             )}
           </Form.Group>    
@@ -186,11 +184,11 @@ const AdEdit = () => {
           <Form.Group className="mb-3" controlId="formPhone">
             <Form.Label>Phone</Form.Label>
             <Form.Control 
-               {...register('phone', {
+              {...register('phone', {
                 required: true,
               })}
               type="tel" 
-              value={user.phone} 
+              value={phone} 
               onChange={e => setPhone(e.target.value)} 
               placeholder="Enter phone number" 
             />
@@ -204,7 +202,7 @@ const AdEdit = () => {
           <Form.Group className="mb-3" controlId="formContent">
             <Form.Label>Content</Form.Label>
             <Form.Control 
-               {...register('content', {
+              {...register('content', {
                 required: true,
                 minLength: 20,
                 maxLength: 1000,
@@ -217,12 +215,12 @@ const AdEdit = () => {
             />
             {errors.content && (
               <small className='d-block form-text mt-2 p-2 bg-danger text-white rounded'>
-                This field is required and has to be between 20 to 1000 characters long.
+                This field is required and must be between 20 and 1000 characters long.
               </small>
             )}
           </Form.Group> 
 
-          <Button type="submit" variant="success"  className="col-sm-6 py-2">
+          <Button type="submit" variant="success" className="col-sm-6 py-2">
             Submit
           </Button>
           
@@ -230,12 +228,14 @@ const AdEdit = () => {
       </div>
 
       <div className="col-12 col-sm-5 mt-5 justify-content-end">
-        <div className="d-flex justify-content-center" >
+        <div className="d-flex justify-content-center">
           <Image 
-          src={IMG_URL + adData.photo} 
-          alt="Logo" crossOrigin="anonymous" 
-          className="img-fluid" 
-          style={{ objectFit: "cover", height: "500px" }}/>
+            src={IMG_URL + adData?.photo} 
+            alt="Logo" 
+            crossOrigin="anonymous" 
+            className="img-fluid" 
+            style={{ objectFit: "cover", height: "500px" }}
+          />
         </div>
       </div>
 
