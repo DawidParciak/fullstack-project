@@ -58,7 +58,7 @@ const AddAd = () => {
     };
 
     setStatus('loading');
-    fetch(`${API_URL}api/ads`, options)
+    fetch(`${API_URL}api/data`, options)
       .then(res => {
         if (res.status === 201) {
           setStatus('success');

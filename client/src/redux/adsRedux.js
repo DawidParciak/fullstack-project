@@ -8,7 +8,7 @@ export const getAllAds = ({ ads }) => ads;
 export const getAdById = ({ ads }, id) => ads.find(ad => ad._id === id);
 
 // actions
-const createActionName = (actionName) => `app/ads/${actionName}`;
+const createActionName = (actionName) => `app/data/${actionName}`;
 const EDIT_AD = createActionName('EDIT_AD');
 const UPDATE_ADS = createActionName('UPDATE_ADS');
 const ADD_AD = createActionName('ADD_AD');
@@ -29,7 +29,7 @@ export const fetchData = () => {
   return async (dispatch) => {
     dispatch(startRequest())
     try {
-    let res = await axios.get(API_URL + 'api/ads')
+    let res = await axios.get(API_URL + 'api/data')
 
       dispatch(updateAds(res.data));
       dispatch(endRequest());
@@ -44,7 +44,7 @@ export const fetchAdvertBySearchPhrase = (searchPhrase) => {
   return async (dispatch) => {
     dispatch(startRequest());
     try {
-      let res = await axios.get(`${API_URL}api/ads/search/${searchPhrase}`);
+      let res = await axios.get(`${API_URL}api/data/search/${searchPhrase}`);
 
       dispatch(searchAd(searchPhrase));
       dispatch(updateAds(res.data));

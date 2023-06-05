@@ -69,7 +69,7 @@ const AdEdit = () => {
     };
 
     setStatus('loading');
-    fetch(`${API_URL}api/ads/${id}`, options)
+    fetch(`${API_URL}api/data/${id}`, options)
       .then(res => {
         if (res.status === 200) {
           setStatus('success');

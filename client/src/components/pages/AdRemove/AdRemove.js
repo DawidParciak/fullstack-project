@@ -18,7 +18,7 @@ const AdRemove = () => {
       method: 'DELETE',
     };
 
-    fetch(`${API_URL}api/ads/${id}`, options)
+    fetch(`${API_URL}api/data/${id}`, options)
       .then(() => {
         dispatch(removeAd(id));
       });
