@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Alert, Button, Form, Spinner } from "react-bootstrap";
 import { API_URL } from "../../../config";
 import CountdownTimer from "../../features/CountdownTimer/CountdownTimer";
 import { useNavigate } from "react-router-dom";
+import { useForm } from 'react-hook-form'
 
 const Register = () => {
 
@@ -12,10 +13,26 @@ const Register = () => {
   const [avatar, setAvatar] = useState(null);
   const [status, setStatus] = useState(null);
 
+  const {
+    register, 
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({ 
+    mode: "onTouched",
+  });
+
+  useEffect(() => {
+    const subscription = watch((value, { name, type }) => {
+      console.log(">>", value, name, type);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [watch]);
+
   const navigate = useNavigate();
 
-  const handleSubmit = e => {
-    e.preventDefault();
+  const handleFormSubmit = e => {
 
     const fd = new FormData();
     fd.append('login', login);
@@ -51,7 +68,7 @@ const Register = () => {
   };
 
   return(
-    <Form className="col-12 col-sm-4 ms-5" onSubmit={handleSubmit}>
+    <Form className="col-12 col-sm-4 ms-5" onSubmit={handleSubmit(handleFormSubmit)}>
 
       <h1 className="my-5">Sign up</h1>
 
@@ -92,25 +109,80 @@ const Register = () => {
 
       <Form.Group className="mb-3" controlId="formLogin">
         <Form.Label>Login</Form.Label>
-        <Form.Control type="text" value={login} onChange={e => setLogin(e.target.value)} placeholder="Enter login" />
+        <Form.Control 
+          {...register('login', {
+            required: true,
+            minLength: 3,
+            maxLength: 20
+          })}
+          type="text" 
+          value={login} 
+          onChange={e => setLogin(e.target.value)} 
+          placeholder="Enter login" 
+        />
+        {errors.login && (
+          <small className='d-block form-text mt-2 p-2 bg-danger text-white rounded'>
+            Login is required and has to be between 3 to 20 characters long.
+          </small>
+        )}
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="formPassword">
         <Form.Label>Password</Form.Label>
-        <Form.Control type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" />
+        <Form.Control 
+          {...register('password', {
+            required: true,
+            minLength: 5,
+            maxLength: 20
+          })}
+          type="password" 
+          value={password} 
+          onChange={e => setPassword(e.target.value)} 
+          placeholder="Password" 
+        />
+        {errors.password && (
+          <small className='d-block form-text mt-2 p-2 bg-danger text-white rounded'>
+            Password is required and has to be between 5 to 20 characters long.
+          </small>
+        )}
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="formPhone">
         <Form.Label>Phone number</Form.Label>
-        <Form.Control type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder="Phone number" />
+        <Form.Control 
+          {...register('phone', {
+            required: true,
+            validate: value => !isNaN(value)
+          })}
+          type="tel" 
+          value={phone} 
+          onChange={e => setPhone(e.target.value)} 
+          placeholder="Phone number" 
+        />
+        {errors.phone  && (
+          <small className='d-block form-text mt-2 p-2 bg-danger text-white rounded'>
+            Phone is required and has to be a number.
+          </small>
+        )}
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="formFile">
         <Form.Label>Avatar</Form.Label>
-        <Form.Control type="file" onChange={e => setAvatar(e.target.files[0])}/>
+        <Form.Control 
+        {...register('avatar', {
+          required: true,
+        })} 
+          type="file" 
+          onChange={e => setAvatar(e.target.files[0])}
+        />
+        {errors.avatar  && (
+          <small className='d-block form-text mt-2 p-2 bg-danger text-white rounded'>
+            Avatar is required.
+          </small>
+        )}
       </Form.Group>
 
-      <Button variant="danger" type="submit">
+      <Button variant="success" type="submit">
         Register
       </Button>
 

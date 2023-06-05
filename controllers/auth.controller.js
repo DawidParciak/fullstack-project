@@ -5,31 +5,33 @@ const fs = require('fs');
 
 exports.register = async (req, res) => {
   try {
-
-    const { login, password, phone} = req.body;
+    const { login, password, phone } = req.body;
     const avatar = req.file;
     const fileType = avatar ? await getImageFileType(avatar) : 'unknown';
+
     if (
-      login && typeof login === 'string' && 
+      login && typeof login === 'string' &&
       password && typeof password === 'string' &&
       phone && typeof phone === 'string' &&
-      avatar && ['image/png', 'image/jpeg', 'image/gif'].includes(fileType) 
-    ){
+      avatar && ['image/png', 'image/jpeg', 'image/gif'].includes(fileType)
+    ) {
       const userWithLogin = await User.findOne({ login });
       if (userWithLogin) {
-        fs.unlinkSync(`./public/uploads/${avatar.filename}`);
+        if (avatar) {
+          fs.unlinkSync(`./public/uploads/${avatar.filename}`);
+        }
         return res.status(409).send({ message: 'User with this login already exists' });
       }
 
       const user = await User.create({ login, password: await bcrypt.hash(password, 10), phone, avatar: avatar.filename });
       res.status(201).send({ message: 'User created ' + user.login });
-    } 
-    else {
-      fs.unlinkSync(`./public/uploads/${avatar.filename}`);
-      res.status(400).send({ message: 'Bad request' });
+    } else {
+      if (avatar) {
+        fs.unlinkSync(`./public/uploads/${avatar.filename}`);
+      }
+      return res.status(400).send({ message: 'Bad request' });
     }
-  } 
-  catch (err) {
+  } catch (err) {
     res.status(500).send({ message: err.message });
   }
 };

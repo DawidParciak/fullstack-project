@@ -191,6 +191,7 @@ const AddAd = () => {
             <Form.Control 
                {...register('phone', {
                 required: true,
+                validate: value => !isNaN(value)
               })}
               type="tel" 
               value={user.phone} 
@@ -199,7 +200,7 @@ const AddAd = () => {
             />
             {errors.phone && (
               <small className='d-block form-text mt-2 p-2 bg-danger text-white rounded'>
-                This field is required.
+                This field is required and has to be a number.
               </small>
             )}
           </Form.Group> 
