@@ -36,13 +36,13 @@ const Home = () => {
     </div>
   )
   else return (
-    <Container className='mt-5'>
+    <Container className='mt-3 mt-lg-5'>
       <div>
-        <Row className='justify-content-between'>
-          <Col>
+        <Row className='justify-content-lg-between'>
+          <Col className='col-12 col-lg-6 order-2 order-lg-1 mt-5 mt-lg-0'>
             <h1>All ads:</h1>
           </Col>
-          <Col>
+          <Col className='col-12 col-lg-6 order-1 order-lg-2'>
             <Form className='d-flex'onSubmit={handleSubmit} >
               <Form.Control
                 type='input'

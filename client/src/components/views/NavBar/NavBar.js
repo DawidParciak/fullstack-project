@@ -20,10 +20,10 @@ const NavBar = () => {
         </NavLink>
         <Navbar.Toggle aria-controls="navbar-nav" />
         <Navbar.Collapse id="navbar-nav">
-          <Nav className="ms-auto">
+          <Nav className="ms-auto align-items-end">
 
             {!user && (
-              <NavLink to="/register" className="pe-3 text-decoration-none">
+              <NavLink to="/register" className="pe-lg-3 pb-2 pb-lg-0 text-decoration-none">
                 <Button variant="danger" size="lg" className="d-flex align-items-center">
                   <span className="material-symbols-outlined pe-2">
                     person_add
@@ -35,7 +35,7 @@ const NavBar = () => {
               </NavLink>
             )}
             {!user && (
-              <NavLink to="/login" className="text-decoration-none">
+              <NavLink to="/login" className="pb-2 pb-lg-0 text-decoration-none">
                 <Button variant="outline-danger" size="lg" className="d-flex align-items-center">
                   <span className="material-symbols-outlined pe-2">
                     login
@@ -48,7 +48,7 @@ const NavBar = () => {
             )}
 
             {user && (
-              <NavLink to="/ad/add" className="pe-3 text-decoration-none">
+              <NavLink to="/ad/add" className="pe-lg-3 pb-2 pb-lg-0 text-decoration-none">
                 <Button variant="success" size="lg" className="d-flex align-items-center">
                   <span className="material-symbols-outlined pe-2">
                     add_box
@@ -61,7 +61,7 @@ const NavBar = () => {
             )}
 
             {user && (
-              <NavLink to="/user" className="pe-3 text-decoration-none">
+              <NavLink to="/user" className="pe-lg-3 pb-2 pb-lg-0 text-decoration-none">
                 <Button variant="danger" size="lg" className="d-flex align-items-center">
                   <span className="material-symbols-outlined pe-2">
                     person
@@ -74,7 +74,7 @@ const NavBar = () => {
             )}
 
             {user && (
-            <NavLink to="/logout" className="text-decoration-none">
+            <NavLink to="/logout" className="pb-2 pb-lg-0 text-decoration-none">
               <Button variant="danger" size="lg" className="d-flex align-items-center">
                 <span className="material-symbols-outlined pe-2">
                   logout

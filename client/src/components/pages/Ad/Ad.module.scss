@@ -1,5 +1,7 @@
 .heading {
   font-size: 80px;
+  display: flex;
+  justify-content: center;
 }
 
 .Ad img {
@@ -31,4 +33,10 @@
 
 .Ad .zoomedIn:hover {
   transform: scale(1);
+}
+
+@media (max-width: 750px) {
+  .heading {
+    font-size: 40px;
+  }
 }

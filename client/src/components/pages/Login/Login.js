@@ -44,7 +44,7 @@ const Login = () => {
   };
 
   return (
-    <Form className="col-12 col-sm-4 ms-5" onSubmit={handleSubmit}>
+    <Form className="col-12 col-lg-4 ms-lg-5" onSubmit={handleSubmit}>
       <h1 className="my-5">Login</h1>
 
       {status === 'success' && (
@@ -85,7 +85,7 @@ const Login = () => {
         <Form.Control type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" />
       </Form.Group>
 
-      <Button variant="success" type="submit">
+      <Button variant="success" type="submit" className='col-12 col-lg-6 mt-4'>
         Login
       </Button>
 

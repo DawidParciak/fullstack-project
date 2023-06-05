@@ -39,12 +39,12 @@ const Ad = () => {
   
   return (
     <div className={styles.Ad}>
-      <Row className='d-flex align-items-center justify-content-between mt-5'>
-        <div className='d-flex justify-content-between px-5 mb-5'>
+      <Row className='d-flex align-items-center justify-content-between mt-5 order-1 order-lg-1'>
+        <div className='d-lg-flex justify-content-lg-between px-5 mb-5'>
           <h2 className={styles.heading}>{adData.title}</h2>
           <h2 className={styles.heading}>{adData.price}$</h2>
         </div>
-        <div className={`col-12 col-sm-5 ms-5 ${styles.AdCard}`} >
+        <div className={`col-12 col-lg-5 ms-lg-5 order-3 order-lg-2 ${styles.AdCard}`} >
           <Card className='mb-3'>
             <Card.Body>
               <Card.Text>
@@ -91,7 +91,7 @@ const Ad = () => {
           <DeleteModal showModal={showModal} handleClose={handleClose} adId={id} />
         </div>
 
-        <div className="col-12 col-sm-6">
+        <div className="col-12 col-lg-6 order-2 order-lg-3 mb-3 mb-lg-0">
           <img
             src={IMG_URL + adData.photo}
             alt={adData.title}
@@ -105,15 +105,15 @@ const Ad = () => {
 
       {user !== null && user.login === adData.seller && (
         <Row>
-          <Col className='mt-4 ms-5'>
-            <Link to={'/ad/edit/' + id}>
-              <Button variant='outline-success' className='m-2' size="lg">
+          <Col className='mt-4 ms-lg-5 d-flex justify-content-between col-lg-5'>
+            <Link to={'/ad/edit/' + id} className='col-5'>
+              <Button variant='outline-success' className='col-12' size="lg">
                 Edit
               </Button>
             </Link>
-              <Button variant='outline-danger' onClick={handleShow} size="lg">
-                Delete
-              </Button>
+            <Button variant='outline-danger' onClick={handleShow} size="lg" className='col-5'>
+              Delete
+            </Button>
           </Col>
         </Row>
       )}

@@ -13,7 +13,7 @@ const User = () => {
     <div className="my-5">
       {user && (
       <Row className='d-flex align-items-center justify-content-between mt-5'>
-          <div className='col-12 col-sm-5 ms-5'>
+          <div className='col-12 col-lg-5 ms-lg-5 order-2 order-lg-1'>
             <Card>
               <Card.Body>
                 <Card.Text className="fs-2 ">
@@ -27,7 +27,7 @@ const User = () => {
               </Card.Body>
             </Card>
           </div>
-          <div className="col-12 col-sm-6">
+          <div className="col-12 col-lg-6 order-1 order-lg-2 mb-3 mb-lg-0">
             <div className="d-flex justify-content-center align-items-center">
               <img
                 src={IMG_URL + user.avatar}

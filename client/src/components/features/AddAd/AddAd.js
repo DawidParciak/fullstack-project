@@ -78,7 +78,7 @@ const AddAd = () => {
   return(
     <section className="d-flex align-items-center justify-content-between">
 
-      <div className="col-12 col-sm-5 ms-5">
+      <div className="col-12 col-lg-5 ms-lg-5">
         <Form onSubmit={handleSubmit(handleFormSubmit)}>
 
           <h1 className="my-5">Ad your's add!</h1>
@@ -226,14 +226,14 @@ const AddAd = () => {
             )}
           </Form.Group> 
 
-          <Button type="submit" variant="success"  className="col-sm-6 py-2">
+          <Button type="submit" variant="success"  className="col-12 col-lg-6 py-2">
             Submit
           </Button>
           
         </Form>
       </div>
 
-      <div className="col-12 col-sm-5 mt-5 justify-content-end">
+      <div className="col-12 col-lg-5 mt-5 justify-content-end d-none d-lg-flex">
         <div className="d-flex justify-content-center" >
           <Image src="/pngeggmirror.png" alt="Logo" className={styles.logo} />
         </div>

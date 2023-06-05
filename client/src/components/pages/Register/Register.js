@@ -68,7 +68,7 @@ const Register = () => {
   };
 
   return(
-    <Form className="col-12 col-sm-4 ms-5" onSubmit={handleSubmit(handleFormSubmit)}>
+    <Form className="col-12 col-lg-4 ms-lg-5" onSubmit={handleSubmit(handleFormSubmit)}>
 
       <h1 className="my-5">Sign up</h1>
 
@@ -182,7 +182,7 @@ const Register = () => {
         )}
       </Form.Group>
 
-      <Button variant="success" type="submit">
+      <Button variant="success" type="submit" className='col-12 col-lg-6 mt-4'>
         Register
       </Button>
 
