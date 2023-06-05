@@ -41,11 +41,17 @@ export const fetchData = () => {
 };
 
 export const fetchAdvertBySearchPhrase = (searchPhrase) => {
-  return (dispatch) => {
-    fetch(API_URL + 'api/ads/search/' + searchPhrase)
-      .then((res) => res.json())
-      .then((ads) => dispatch(updateAds(ads)));
-    dispatch(searchAd(searchPhrase));
+  return async (dispatch) => {
+    dispatch(startRequest());
+    try {
+      let res = await axios.get(`${API_URL}api/ads/search/${searchPhrase}`);
+
+      dispatch(searchAd(searchPhrase));
+      dispatch(updateAds(res.data));
+      dispatch(endRequest());
+    } catch (err) {
+
+    }
   };
 };
 

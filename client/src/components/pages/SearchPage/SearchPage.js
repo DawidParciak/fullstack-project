@@ -1,21 +1,30 @@
 import { useDispatch, useSelector } from "react-redux";
 import AdBox from "../../features/AdBox/AdBox";
-import { Container, Row, Col, Alert } from "react-bootstrap"
+import { Container, Row, Col, Alert, Spinner } from "react-bootstrap"
 import { fetchAdvertBySearchPhrase, getAllAds } from "../../../redux/adsRedux";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { getRequest } from "../../../redux/requestRedux";
 
 const SearchPage = () => {
 
   const dispatch = useDispatch();
   const { searchPhrase } = useParams();
   const ads = useSelector(getAllAds);
+  const request = useSelector(getRequest);
 
   useEffect(() => {
     dispatch(fetchAdvertBySearchPhrase(searchPhrase));
   }, [dispatch, searchPhrase]);
 
-  return(
+  if (request.pending) return (
+    <div className="my-5 d-flex justify-content-center">
+      <Spinner animation='border' role='status'>
+        <span className='visually-hidden'>Loading...</span>
+      </Spinner>
+    </div>
+  )
+  else return(
     <Container className="mt-5">
       {ads.length === 0 ? (
       <div className="my-5 d-flex justify-content-center">
