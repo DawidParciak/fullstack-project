@@ -28,8 +28,8 @@ exports.postNewAd = async (req, res) => {
     const fileType = photo ? await getImageFileType(photo) : 'unknown';
     const { title, content, date, price, localization, seller, phone } = req.body;
     if(
-      title.length > 10 && title.length < 50 &&
-      content.length > 20 && content.length < 1000 &&
+      title.length >= 10 && title.length <= 50 &&
+      content.length >= 20 && content.length <= 1000 &&
       photo && ['image/png', 'image/jpeg', 'image/gif'].includes(fileType)
     ){
       const newAd = new Ad({
