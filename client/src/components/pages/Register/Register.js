@@ -16,19 +16,10 @@ const Register = () => {
   const {
     register, 
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm({ 
     mode: "onTouched",
   });
-
-  useEffect(() => {
-    const subscription = watch((value, { name, type }) => {
-      console.log(">>", value, name, type);
-    });
-
-    return () => subscription.unsubscribe();
-  }, [watch]);
 
   const navigate = useNavigate();
 
